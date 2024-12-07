@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static '/css/style.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <title>Login Page.</title>
+  <style>
+    button.sidebar {
+      border: none;
+      border-radius: 0;
+      text-align: start;
+      margin-bottom: 10px;
+      background-color: transparent;
+      padding: 10px 1rem;
+    }
+
+    button.sidebar:hover { 
+      color: white;
+      outline: 1px solid black;
+      background-color: cadetblue;
+     }
+  </style>
+</head>
+
+<body>
+  <nav class="text-center py-3 text-white text-white" style="background-color: #7ED4AD;">
+    <h3>Welcome to the Role-Based Access Control System</h3>
+  </nav>
+  
+  <!-- <nav class="text-center py-3 text-bg-success bg-gradient text-white">
+    <h3>Welcome to the Role-Based Access Control System</h3>
+  </nav> -->
+
+  <!-- <div class="row m-0 p-0">
+    <div class="mx-auto mt-5 col-12 col-md-4">
+      <div class="card card-body shadow-sm">
+        <form method="post">
+          {%csrf_token%}
+          {% if messages %}
+          {% for message in messages %}
+          <div class="form-group alert 
+            alert-{% if message.tag == 'success' %}success{% else %}danger{%endif%}
+          ">
+            {{message}}
+          </div>
+          {% endfor %}
+          {% endif %}
+          <div class="form-group">
+            <label for="" class="h6">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="enter username...">
+          </div>
+          <div class="form-group mt-3">
+            <label for="" class="h6">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="enter password...">
+          </div>
+          <div class="form-group mt-3">
+            <div class="row">
+              <label for="" class="h6 col">
+                <a href="#">forget password</a>
+              </label>
+              <label for="" class="h6 col text-end">
+                <a href="{% url 'create_user_page' %}">Create a new user</a>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">Sign in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="row mx-auto w-md-50">
+    <div class="col-md-auto col-12 d-flex flex-md-column py-3" style="height: fit-content;">
+      <button class="sidebar" data-target="admin-login">Admin</button>
+      <button class="sidebar" data-target="role-login">Role Manager</button>
+      <button class="sidebar" data-target="user-login">User</button>
+    </div>
+
+    <div class="col mt-3">
+      <div class="row">
+        <p class="text-secondary">Choose a role from the sidebar to access the respective login section.</p>
+      </div>
+
+      <div class="row col">
+        <div id="admin-login" class="d-none main-part">
+          <h3 class="display-5 fw-bold">Admin login</h3>
+          <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="role" value="admin">
+            <div>
+              <label for="" class="form-label">Username</label>
+              <input type="text" name="username" class="form-control form-control-sm">
+            </div>
+            <div class="mt-3">
+              <label for="" class="form-label">Password</label>
+              <input type="text" name="password" class="form-control form-control-sm">
+            </div>
+            <div class="m-0 p-0 mt-3 row">
+              <button class="btn btn-dark btn-sm">Login as Admin</button>
+            </div>
+            <div class="m-0 p-0 mt-2 row col-auto text-start">
+              <a href="#" class="p-0 m-0">create Admin</a>
+            </div>
+          </form>
+        </div>
+        <div id="role-login" class="d-none main-part">
+          <h3 class="display-5 fw-bold">Role Login</h3>
+          <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="role" value="role">
+            <div>
+              <label for="" class="form-label">Username</label>
+              <input type="text" name="username" class="form-control form-control-sm">
+            </div>
+            <div class="mt-3">
+              <label for="" class="form-label">Password</label>
+              <input type="text" name="password" class="form-control form-control-sm">
+            </div>
+            <div class="m-0 p-0 mt-3 row">
+              <button class="btn btn-dark btn-sm">Login as Role Manager</button>
+            </div>
+            <div class="m-0 p-0 mt-2 row col-auto text-start">
+              <a href="#" class="p-0 m-0">create Role Manager</a>
+            </div>
+          </form>
+        </div>
+        <div id="user-login" class="main-part">
+          <h3 class="display-5 fw-bold">User Login</h3>
+          <form>
+            <input type="hidden" name="role" value="user">
+            <div class="">
+              <label for="" class="form-label">Username</label>
+              <input type="text" name="username" class="form-control form-control-sm">
+            </div>
+            <div class="mt-3">
+              <label for="" class="form-label">Password</label>
+              <input type="text" name="password" class="form-control form-control-sm">
+            </div>
+            <div class="m-0 p-0 mt-3 row">
+              <button class="btn btn-dark btn-sm">Login as User</button>
+            </div>
+            <div class="m-0 p-0 mt-2 row col-auto text-start">
+              <a href="#" class="p-0 m-0">create User</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    $(document).ready(() => {
+      // When a sidebar button is clicked
+      $('button.sidebar').click(function () {
+        const data = $(this).data('target');
+
+        $('.main-part').each(function () {
+          if (!$(this).hasClass('d-none')) {
+            $(this).addClass('d-none')
+          }
+        })
+        $(`#${data}`).removeClass('d-none');
+      });
+    });
+  </script>
+</body>
+
+</html>

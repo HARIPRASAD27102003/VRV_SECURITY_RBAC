@@ -1,0 +1,196 @@
+{% extends 'layout.html' %}
+{% load customeTags %}
+
+{% block body %}
+
+<!-- modal -->
+<div class="modal fade" id="add_role_modal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header p-0 m-0 p-2">
+        <p class="h6 modal-title">Add role</p>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form> -->
+        <div class="">
+          <label for="role_name_input" class="form-label m-0">Role:</label>
+          <input type="text" name="role_name" id="role_name_input" class="form-control" placeholder="enter role name">
+        </div>
+        <!-- </form> -->
+      </div>
+      <div class="modal-footer m-0">
+        <button class="btn btn-sm btn-danger" data-bs-dismiss="modal">close</button>
+        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- modal -->
+<nav aria-label="breadcrumb" class="pt-1">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Roles</li>
+  </ol>
+</nav>
+
+<div>
+  <form class="">
+    <div class="input-group">
+      <span class="input-group-text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+          class="bi bi-search text-secondary" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg>
+      </span>
+      <input type="text" class="form-control" name="q" value="{{q}}" placeholder="search roles">
+      <button type=" button" class="btn btn-primary">search</button>
+    </div>
+    <!-- <div class="row">
+      <div class="input-check col-auto">
+        <input type="checkbox" class="form-check-input" name="active" id="active">
+        <label for="active" class="form-check-label">active</label>
+      </div>
+      <div class="input-check col-auto">
+        <input type="checkbox" class="form-check-input" name="inactive" id="inactive">
+        <label for="inactive" class="form-check-label">inactive</label>
+      </div>
+    </div> -->
+  </form>
+
+  {% if 'add_role' in permissions %}
+  <div class="row">
+    <div class="col-auto ms-auto">
+      <a href="{% url 'add_role' %}" class="btn btn-success btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-checklist"
+          viewBox="0 0 16 16">
+          <path
+            d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+          <path
+            d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0" />
+        </svg>
+        Add role
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <!-- <div class="col">
+      <p class="h6 mt-3"><b>Hierarchical view</b></p>
+      <div class="card card-body px-2">
+        <div class="role-item">
+          <div class="d-flex align-items-center w-100 p-2">
+            <button class="toggle-btn btn btn-sm">+</button>
+            <p class="m-0">Adminstrator</p>
+            <div class="ms-auto">
+              <div class="input-group input-group-sm" style="justify-self: end;">
+                <button class="m-0 btn btn-sm btn-outline-success">edit role</button>
+                <button class="m-0 btn btn-sm btn-outline-secondary">add role</button>
+                <button class="m-0 btn btn-sm btn-outline-danger">delete role</button>
+              </div>
+            </div>
+          </div>
+          <div class="child-role d-none ms-4">
+            <div class="d-flex align-items-center p-2">
+              <button class="toggle-btn btn btn-sm">+</button>
+              <p class="m-0">Manager</p>
+              <div class="ms-auto">
+                <div class="input-group input-group-sm" style="justify-self: end;">
+                  <button class="m-0 btn btn-sm btn-outline-success">edit role</button>
+                  <button class="m-0 btn btn-sm btn-outline-secondary">add role</button>
+                  <button class="m-0 btn btn-sm btn-outline-danger">delete role</button>
+                </div>
+              </div>
+            </div>
+            <div class="child-role d-none ms-4">
+              <div class="d-flex align-items-center p-2">
+                <button class="toggle-btn btn btn-sm">+</button>
+                <p class="m-0">Manager</p>
+                <div class="ms-auto">
+                  <div class="input-group input-group-sm" style="justify-self: end;">
+                    <button class="m-0 btn btn-sm btn-outline-success">edit role</button>
+                    <button class="m-0 btn btn-sm btn-outline-secondary">add role</button>
+                    <button class="m-0 btn btn-sm btn-outline-danger">delete role</button>
+                  </div>
+                </div>
+              </div>
+              <div class="child-role d-none ms-5">
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col">
+      <p class="h6 mt-3"><b>Roles in-use</b></p>
+      {% if roles %}
+      <table class="table w-100 border-primary table-bordered table-sm">
+        <thead class="table-dark">
+          <tr>
+            <th>sno</th>
+            <th>role</th>
+            <th>permissions</th>
+            <th>edit</th>
+            <th>details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for role in roles %}
+          <tr>
+            <td>{{ role.pk }}</td>
+            <td>{{ role.name }}</td>
+            <td>
+              <ul class="list-unstyled">
+                {% for permission in role.permissions.all %}
+                <li>{{ permission.name }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>
+              {% if 'edit_role'|is_in:request.session.permissions %}
+              <a href="{% url 'edit_role_id' role.pk %}" class="btn btn-link">edit</a>
+              {% else %}
+                <p class="text-danger">Not permitted</p>
+              {% endif %}
+            </td>
+            <td>
+              {% if 'edit_role'|is_in:request.session.permissions %}
+              <a href="{% url 'detail_role' role.pk %}" class="btn btn-link">details</a>
+              {% else %}
+                <p class="text-danger">Not permitted</p>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-center text-secondary display-6">No roles found!</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(() => {
+    $('.toggle-btn').click(function () {
+      const childRoles = $(this).parent().next('.child-role');
+      if (childRoles.hasClass('d-none')) {
+        childRoles.hide().removeClass('d-none').slideDown(200);
+        $(this).text('-');
+      } else {
+        childRoles.slideUp(200, () => childRoles.addClass('d-none'));
+        $(this).text('+');
+      }
+    });
+  })
+</script>
+{% endblock %}

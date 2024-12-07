@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<nav aria-label="breadcrumb" class="pt-1">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active"><a href="{% url 'role_management' %}">Roles</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{roles.name}}</li>
+  </ol>
+</nav>
+
+<div>
+  <h3 class="display-6 fw-bold">Details <mark class="p-0 m-0 px-2">{{roles.name}}</mark> Role</h3>
+</div>
+
+<div>
+  <div class="h5">
+    <p>
+      <b>Name:</b> {{roles.name}}
+    </p>
+
+    <p>
+      <b>Descriptions:</b>
+      {% if roles.description %}
+      {{roles.description}}
+      {% else %}
+      <span class="text-danger d-inline">no description</span>
+      {% endif %}
+    </p>
+
+    <div>
+      <p class="fw-bold d-inline">Permissions: </p>
+      {% if roles.permissions.all%}
+      <ul>
+        {% for permission in roles.permissions.all %}
+        <li>{{permission.name}}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-danger d-inline">No Permissions assigned</p>
+      {% endif%}
+    </div>
+
+    <!-- <p class="d-flex">
+      <b>Permissions:</b>
+      {% if roles.permissions.all %}
+    <ul class="p-0 m-0">
+      {% for permission in roles.permissions.all %}
+      <li class="m-0 p-0">{{permission.name}}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <span class="text-danger d-inline">no description</span>
+    {% endif %}
+    </p> -->
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(() => {
+    $('.toggle-btn').click(function () {
+      const childRoles = $(this).parent().next('.child-role');
+      if (childRoles.hasClass('d-none')) {
+        childRoles.hide().removeClass('d-none').slideDown(200);
+        $(this).text('-');
+      } else {
+        childRoles.slideUp(200, () => childRoles.addClass('d-none'));
+        $(this).text('+');
+      }
+    });
+  })
+</script>
+{% endblock %}

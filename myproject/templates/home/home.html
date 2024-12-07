@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block body %}
+<nav aria-label="breadcrumb" class="pt-1">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+  </ol>
+</nav>
+<!-- <div class="w-100 p-2 pt-0">
+  <form class="row gap-2">
+    <div class="input-group p-0 col">
+      <span class="input-group-text border-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+          class="bi bi-search text-secondary" viewBox="0 0 16 16">
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg>
+      </span>
+      <input type="text" class="form-control border-secondary" name="s" placeholder="Search by username, email or role">
+      <button type="submit" class="col-2 btn btn-success border-secondary">Search</button>
+    </div>
+    <div class="row">
+      <div class="form-check col-auto">
+        <input class="form-check-input" type="checkbox" name="active" {% if active_checked %}checked{% endif%}
+          id="active">
+        <label class="form-check-label" for="active">Active</label>
+      </div>
+      <div class="form-check col-auto">
+        <input class="form-check-input" type="checkbox" name="inactive" {% if inactive_checked %}checked{% endif%}
+          id="inactive">
+        <label class="form-check-label" for="inactive">In-active</label>
+      </div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="form-check col-auto p-0 m-0 ms-auto">
+      {% if request.session.role == 'admin' or request.session.role == 'role' %}
+      <a href="?view=grid" name="view" class="btn btn-info btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add"
+          viewBox="0 0 16 16">
+          <path
+            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+          <path
+          d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
+        </svg>
+        Add user
+      </a>
+      <a href="?view=grid" name="view" class="btn btn-info btn-sm">+ Add role</a>
+      {% endif %}
+
+    </div>
+  </div>
+  </form>
+
+  <div class="p-0 m-0">
+    <p class="h6">
+      Showing <b>1</b> to <b>10</b> from <b>1</b>
+    </p>
+  </div>
+
+  {% if view_type == 'grid' %}
+  <div class="d-flex flex-wrap flex-col gap-2">
+    <div class="card role-display p-1 pt-2 " style="min-height: 150px;width: 150px;">
+      <div class="w-50 h-50 mx-auto" style="border-radius: 99999px;overflow: hidden;">
+        <img src="{% static 'images/profile/male.png' %}" class="" width="100%" height="100%"
+          style="object-fit: cover;">
+      </div>
+      <div class="h6 text-center m-0 mt-1 p-0 ">Ayush Sharma</div>
+      <div class="text-center h6 p-0 m-0 text-secondary text-nowrap" style="font-size: 10px;">
+        ayushsharma-14may@gmail.com</div>
+      <div class="d-flex flex-wrap justify-content-center m-0 p-0 mt-2 gap-1">
+        <p class="bg-secondary text-white rounded p-0 m-0" style="font-size: 0.6rem;">Adminstrator</p>
+        <p class="bg-secondary text-white rounded p-0 m-0" style="font-size: 0.6rem;">Adminstrator</p>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <table class="table w-100 table-sm table-bordered border-primary text-center">
+    <thead>
+      <tr>
+        <th>sno</th>
+        <th>username</th>
+        <th>email</th>
+        <th>role</th>
+        <th>created at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Ayush Sharma</td>
+        <td>ayushsharma014may@gmail.com</td>
+        <td>
+          <div class="d-flex flex-wrap justify-content-center m-0 p-0 mt-2 gap-1">
+            <p class="bg-secondary text-white rounded p-0 m-0" style="font-size: 0.6rem;">Adminstrator</p>
+            <p class="bg-secondary text-white rounded p-0 m-0" style="font-size: 0.6rem;">Adminstrator</p>
+          </div>
+        </td>
+        <td>1:22am</td>
+      </tr>
+    </tbody>
+  </table>
+  {% endif %}
+</div> -->
+
+<div class="">
+  <h1 class="display-4 fw-bold">Welcome to the Admin Dashboard</h1>
+  <h3 class="h3 text-secondary">Welcome to the Role-Based Access Control System</h3>
+</div>
+
+<div class="row gap-2 p-0 m-0 mt-3">
+  <!-- <div class="col-12 col-md rounded" style="height: 100px;background: rgb(133,169,143);background: linear-gradient(180deg, rgba(133,169,143,1) 0%, rgba(200,225,207,1) 95%, rgba(133,169,143,1) 100%);"> -->
+  <div class="col-12 col-md text-bg-success bg-gradient rounded" style="height: 100px;">
+    <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+      <h4>Total Users</h4>
+      <h6>{{ total_user }}</h6>
+    </div>
+  </div>
+  <div class="col-12 col-md text-bg-primary bg-gradient rounded" style="height: 100px;">
+    <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+      <h4>Active Roles</h4>
+      <h6>{{ total_role }}</h6>
+    </div>
+  </div>
+  <div class="col-12 col-md text-bg-warning bg-gradient rounded" style="height: 100px;">
+    <div class="w-100 h-100 text-center d-flex flex-column align-items-center justify-content-center">
+      <h4>Active Permissions</h4>
+      <h6>{{ total_permission }}</h6>
+    </div>
+  </div>
+  <div class="col-12 col-md text-bg-danger bg-gradient rounded" style="height: 100px;">
+    <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
+      <h4>Issue Reported</h4>
+      <h6>4</h6>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(() => {
+    $grid = $('#grid_btn')
+  })
+</script>
+{% endblock %}

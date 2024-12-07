@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.card,
+.card-body {
+  border-radius: 0 !important;
+}
+
+ol,
+li {
+  list-style: none;
+}
+
+.role-display {
+  position: relative;
+  cursor: pointer;
+  transition: all 300ms ease-out;
+}
+
+.role-display:hover {
+  transform: translateY(-2px);
+  background-color: aliceblue !important;
+}
+
+
+.role-display::before {
+  content: '';
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 5px;
+}
+
+.role-display-success::before {
+  background-color: var(--bs-success);
+}
+
+.role-display-danger::before {
+  background-color: var(--bs-danger);
+}
+
+.role-display-secondary::before {
+  background-color: var(--bs-secondary);
+}
+
+.role-display-light::before {
+  background-color: var(--bs-light);
+}
+
+
+.checkbox-hover:hover{
+  outline: 1px solid !important;
+}

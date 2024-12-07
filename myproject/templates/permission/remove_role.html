@@ -1,0 +1,163 @@
+{% extends 'layout.html' %}
+{% load customeTags %}
+
+{% block body %}
+
+<!-- modal -->
+<div class="modal fade" id="add_role_modal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+  <div class="modal-dialog">
+    <form class="modal-content">
+      <div class="modal-header p-0 m-0 p-2">
+        <p class="h6 modal-title">Add Role</p>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label for="role_name_input" class="form-label m-0">Role:</label>
+          <input type="text" name="role_name" id="role_name_input" class="form-control" placeholder="Enter role name">
+        </div>
+      </div>
+      <div class="modal-footer m-0">
+        <button class="btn btn-sm btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-sm btn-success">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- modal -->
+
+<nav aria-label="breadcrumb" class="pt-1">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Remove roles</li>
+  </ol>
+</nav>
+
+<form>
+  <div class="input-group">
+    <span class="input-group-text">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+        class="bi bi-search text-secondary" viewBox="0 0 16 16">
+        <path
+          d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+      </svg>
+    </span>
+    <input type="text" class="form-control" name="q" value="{{q}}" placeholder="search roles">
+    <button type=" button" class="btn btn-primary">search</button>
+  </div>
+  <!-- <div class="row">
+    <div class="input-check col-auto">
+      <input type="checkbox" class="form-check-input" name="active" id="active">
+      <label for="active" class="form-check-label">active</label>
+    </div>
+    <div class="input-check col-auto">
+      <input type="checkbox" class="form-check-input" name="inactive" id="inactive">
+      <label for="inactive" class="form-check-label">inactive</label>
+    </div>
+  </div> -->
+</form>
+
+<form class="row">
+  <div class="col">
+    <p class="h6 mt-3"><b>Manage Roles</b></p>
+
+    <!-- Roles List -->
+    <table class="table table-bordered border-primary mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Role Name</th>
+          <th>Permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="roles_table">
+        <!-- Example row -->
+        {% for role in roles %}
+        <tr>
+          <td>{{role.pk}}</td>
+          <td>{{role.name}}</td>
+          <td>
+            <ul class="list-unstyled">
+              {% for permission in role.permissions.all %}
+              <li>
+                {{ permission.name }}
+                {% if 'remove_permission'|is_in:request.session.permissions %}
+                <button class="btn btn-sm btn-link remove-permission-btn" data-role-name="{{role.name}}"
+                  data-role-id="{{ role.pk }}" data-permission-name="{{permission.name}}"
+                  data-permission-id="{{ permission.pk }}">Remove</button>
+                {% else %}
+                <p class="text-danger d-inline">Not permitted to remove</p>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>
+            {% if 'remove_role'|is_in:request.session.permissions %}
+            <button class="btn btn-sm btn-link remove-role-btn" data-role-id="{{role.pk}}">Remove Role</button>
+            {% else %}
+            <p class="text-danger d-inline">Not permitted to remove</p>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready(() => {
+    $('.remove-permission-btn').on('click', function (e) {
+      e.preventDefault();
+
+      const roleId = $(this).data('role-id')
+      const permissionId = $(this).data('permission-id')
+      const permissionName = $(this).data('permission-name')
+      const roleName = $(this).data('role-name')
+      const li = $(this).closest('li')
+      const token = '{{csrf_token}}'
+
+      if (confirm(`Are you sure you want to remove ${permissionName} from ${roleName}?`)) {
+        $.ajax({
+          method: "POST",
+          url: `/api/roles/remove/${roleId}/${permissionId}/`,
+          headers: { "X-CSRFToken": token },
+          success: function (response) {
+            alert("Permission removed successfully!")
+            li.remove()
+          },
+          error: function (error) { }
+        })
+      }
+    })
+
+    $('.remove-role-btn').on('click', function (e) {
+      e.preventDefault();
+      const roleId = $(this).data('role-id'); // Get role ID
+      const row = $(this).closest('tr'); // Get the row to remove
+      const token = '{{csrf_token}}'
+
+      if (confirm('Are you sure you want to remove this role?')) {
+        $.ajax({
+          url: `/api/roles/remove/${roleId}/`,
+          type: 'POST',
+          headers: { 'X-CSRFToken': token },
+          success: function (response) {
+            alert('Role removed successfully!');
+            row.remove();
+          },
+          error: function (error) {
+            alert('Failed to remove the role. Please try again.');
+          }
+        });
+      }
+    });
+  });
+</script>
+{% endblock %}
